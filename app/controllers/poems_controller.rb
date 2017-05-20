@@ -28,6 +28,7 @@ class PoemsController < ApplicationController
 
     respond_to do |format|
       if @poem.save
+        # binding.pry
         format.html { redirect_to @poem, notice: 'Poem was successfully created.' }
         format.json { render :show, status: :created, location: @poem }
       else
@@ -40,8 +41,12 @@ class PoemsController < ApplicationController
   # PATCH/PUT /poems/1
   # PATCH/PUT /poems/1.json
   def update
+    #binding.pry
+    @poem = set_poem
+    #raise
     respond_to do |format|
       if @poem.update(poem_params)
+        redirect_to poem_url(@poem)
         format.html { redirect_to @poem, notice: 'Poem was successfully updated.' }
         format.json { render :show, status: :ok, location: @poem }
       else
@@ -56,7 +61,7 @@ class PoemsController < ApplicationController
   def destroy
     @poem.destroy
     respond_to do |format|
-      format.html { redirect_to poems_url, notice: 'Poem was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'Poem was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +74,6 @@ class PoemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poem_params
-      params.require(:poem).permit(:content, :auther)
+      params.require(:poem).permit(:title, :content, :auther)
     end
 end
